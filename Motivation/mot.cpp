@@ -1,6 +1,6 @@
 #define CL_TARGET_OPENCL_VERSION 120
 #define __CL_ENABLE_EXCEPTIONS
-#define TESTSIZE 128
+#define TESTSIZE 8
 
 #include "OpenCL/cl.hpp"
 #include "OpenCL/device_picker.hpp"
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     cl_ulong cache_size = device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHE_SIZE>();
     size_t dataset_size_bytes = TESTSIZE * 1024 * 1024;
 
-    std::cout << "Device cache size: " << cache_size / (1024 * 1024) << " MB\n";
+    std::cout << "Device cache size: " << cache_size / (1024) << " MB\n";
     std::cout << "Dataset size: " << TESTSIZE << " MB\n";
 
     bool is_in_cache = (dataset_size_bytes <= cache_size);
