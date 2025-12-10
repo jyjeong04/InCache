@@ -2,11 +2,11 @@
 #define __CL_ENABLE_EXCEPTIONS
 #define TESTSIZE 128
 
-#include "../OpenCL/cl.hpp"
-#include "../OpenCL/device_picker.hpp"
-#include "../OpenCL/err_code.h"
-#include "../OpenCL/util.hpp"
-#include "../OpenCL/wtime.c"
+#include "OpenCL/cl.hpp"
+#include "OpenCL/device_picker.hpp"
+#include "OpenCL/err_code.h"
+#include "OpenCL/util.hpp"
+#include "OpenCL/wtime.c"
 #include <iomanip>
 #include <iostream>
 
