@@ -30,7 +30,7 @@
  #include <cstdio>
 #endif
 
-const char *err_code (cl_int err_in)
+inline const char *err_code (cl_int err_in)
 {
     switch (err_in) {
         case CL_SUCCESS:
@@ -140,7 +140,7 @@ const char *err_code (cl_int err_in)
 }
 
 
-void check_error(cl_int err, const char *operation, char *filename, int line)
+inline void check_error(cl_int err, const char *operation, char *filename, int line)
 {
     if (err != CL_SUCCESS)
     {
