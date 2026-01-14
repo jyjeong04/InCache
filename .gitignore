@@ -1,0 +1,27 @@
+# Ignore omnidb-src directory
+omnidb-src/
+
+# Object files
+*.o
+*.so
+*.a
+
+# Executables
+omnidb_opencl
+
+# Build artifacts
+*.log
+*.tlog
+
+# IDE files
+.vscode/
+.idea/
+
+# Core dumps
+core
+core.*
+
+# Temporary files
+*.tmp
+*~
+
