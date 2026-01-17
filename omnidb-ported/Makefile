@@ -18,6 +18,9 @@ INCLUDES = -I. $(OPENCL_CFLAGS)
 # Libraries
 LIBS = $(OPENCL_LIBS) -lpthread -lm
 
+# Build directory
+BUILD_DIR = build
+
 # Source files
 SOURCES = \
 	mainProgram.cpp \
@@ -62,9 +65,9 @@ TEST_SOURCES = \
 	testNinlj.cpp \
 	testSMJ.cpp
 
-# Object files
-OBJECTS = $(SOURCES:.cpp=.o)
-TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
+# Object files (in build directory)
+OBJECTS = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
+TEST_OBJECTS = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(TEST_SOURCES))
 
 # Executable name
 TARGET = exec
@@ -78,18 +81,25 @@ all: $(TARGET)
 # Build executable
 $(TARGET): $(OBJECTS) $(TEST_OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIBS)
+	@echo "Build complete: $(TARGET)"
 
 # Build shared library
 shared: $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -shared -o $(SHARED_LIB) $^ $(LIBS)
 
+# Create build directory if it doesn't exist
+$(BUILD_DIR):
+	@mkdir -p $(BUILD_DIR)
+
 # Compile C++ source files
-%.o: %.cpp
+$(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Clean build artifacts
 clean:
-	rm -f $(OBJECTS) $(TEST_OBJECTS) $(TARGET) $(SHARED_LIB)
+	rm -rf $(BUILD_DIR)
+	rm -f $(TARGET) $(SHARED_LIB)
+	@echo "Clean complete"
 
 # Install (optional)
 install: $(TARGET)

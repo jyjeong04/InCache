@@ -1,6 +1,13 @@
 # Ignore omnidb-src directory
 omnidb-src/
 
+# Build directory
+build/
+
+# Output directory
+output/
+Output/
+
 # Object files
 *.o
 *.so
@@ -8,6 +15,7 @@ omnidb-src/
 
 # Executables
 omnidb_opencl
+exec
 
 # Build artifacts
 *.log

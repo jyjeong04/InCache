@@ -262,12 +262,15 @@ void AnyHowFree() {
   HOST_FREE(H6);
 }
 void handShaking() {
-  char outputFilename[50];
-  std::string s1 = "KernelTimeSpecification.list";
-  std::string s2(dir);
-  s2.append(s1);
-  cout << s2 << "\n";
-  sprintf(outputFilename, s2.c_str());
+  char outputFilename[100];
+
+  // Create output directory if it doesn't exist
+  system("mkdir -p output");
+
+  // Use output directory for handshake results
+  std::string s1 = "output/kernel_time_specification.txt";
+  cout << s1 << "\n";
+  snprintf(outputFilename, sizeof(outputFilename), "%s", s1.c_str());
   ofp = fopen(outputFilename, "a");
   int CPU_GPU = 0;
   int kid;
@@ -877,14 +880,14 @@ void EngineStop() {
   pthread_mutex_destroy(&deschedulerflag);
   char outputFilename[50];
   int i;
-  sprintf(outputFilename, "./Output/ExpOut_cpuBurden.tony");
+  sprintf(outputFilename, "output/ExpOut_cpuBurden.tony");
   ofp = fopen(outputFilename, "w");
   for (i = 0; i < cpuburden_index; i++) {
     fprintf(ofp, "%.5f\n", cpuburden[i]);
   }
   fclose(ofp);
 
-  sprintf(outputFilename, "./Output/ExpOut_gpuBurden.tony");
+  sprintf(outputFilename, "output/ExpOut_gpuBurden.tony");
   ofp = fopen(outputFilename, "w");
   for (i = 0; i < gpuburden_index; i++) {
     fprintf(ofp, "%.5f\n", gpuburden[i]);
@@ -903,6 +906,7 @@ int main(int argc, char **argv) {
     dir = argv[1];
     EngineStart(1, 0);
   }
+  EngineStop();
 }
 void Cleanup(int iExitCode) {
   // Cleanup allocated objects

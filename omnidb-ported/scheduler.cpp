@@ -43,7 +43,7 @@ extern pthread_mutex_t deschedulerflag;
 #define Greedy
 
 /*buffer operation is by default greedy*/
-// #define Continuous
+#define Continuous
 extern int global_KernelSchedule;
 double inline getAddBurden_Copy(const int *Flag_CPU_GPU, double size) {
   if ((*Flag_CPU_GPU))
@@ -170,18 +170,18 @@ int cl_readbufferscheduler(int size, int *Flag_CPU_GPU, double *burden,
     }
 
 #else
-    /*read is GPU favor*/
-    if (GPUBurden < CPUBurden) {
-      CPU_GPU = 1;
-      GPUBurdenINC(burden);
-      //_tonyPrint_("readbufferscheduler: case 1\n");
-    } else if (GPUBurden > UpGPUBurden) {
+    /*READ is CPU favor*/
+    if (CPUBurden < GPUBurden) {
       CPU_GPU = 0;
       CPUBurdenINC(burden);
-      //_tonyPrint_("readbufferscheduler: case 2\n");
-    } else {
+      //_tonyPrint_("readbufferscheduler: case 1\n");
+    } else if (CPUBurden > UpCPUBurden) {
       CPU_GPU = 1;
       GPUBurdenINC(burden);
+      //_tonyPrint_("readbufferscheduler: case 2\n");
+    } else {
+      CPU_GPU = 0;
+      CPUBurdenINC(burden);
       //_tonyPrint_("readbufferscheduler: case 3\n");
     }
 #endif
@@ -250,14 +250,19 @@ int cl_copyBufferscheduler(int size, int *Flag_CPU_GPU, double *burden,
     }
 
 #else
+    /*COPY is CPU favor*/
     if (CPUBurden < GPUBurden) {
       CPU_GPU = 0;
       CPUBurdenINC(burden);
       //_tonyPrint_("copyBufferscheduler: case 1\n");
-    } else {
+    } else if (CPUBurden > UpCPUBurden) {
       CPU_GPU = 1;
       GPUBurdenINC(burden);
       //_tonyPrint_("copyBufferscheduler: case 2\n");
+    } else {
+      CPU_GPU = 0;
+      CPUBurdenINC(burden);
+      //_tonyPrint_("copyBufferscheduler: case 3\n");
     }
 #endif
   } else {

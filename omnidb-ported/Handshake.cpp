@@ -2039,7 +2039,7 @@ void joinMBWrite_kernel_handshake(int _HandShakeCPU_GPU,
   int timer = DLL_genTimer(kid);
   for (i = 0; i < Count; i++) {
     DLL_getTimer(timer);
-    size_t numThreadsPerBlock_x = 256;
+    size_t numThreadsPerBlock_x = 2;
     size_t globalWorkingSetSize = 32 * 64;
     cl_getKernel("joinMBWrite_kernel", _HandShakeKernel);
     // Set the Argument values
